@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/auth/login",
+    "headers": {
+      "Content-Type": { "contains": "application/json" }
+    },
+    "bodyPatterns": [
+      { "matchesJsonPath": "$[?(@.username == 'sifat' && @.password == 'pass123')]" }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "bodyFileName": "responses/login-success.json"
+  }
+}
