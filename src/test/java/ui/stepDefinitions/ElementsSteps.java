@@ -5,6 +5,8 @@ import ui.context.TestDataContext;
 import ui.pageObjects.listofActionsPage;
 import io.cucumber.java.en.*;
 import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
+
 import ui.utils.ExcelRow;
 import ui.utils.ExcelUtils;
 
@@ -18,6 +20,8 @@ public class ElementsSteps extends BaseClass{
 
     private final TestDataContext context;
     listofActionsPage lp;
+    WebDriver driver;
+    
 
    
     public ElementsSteps(TestDataContext context) {
@@ -26,7 +30,7 @@ public class ElementsSteps extends BaseClass{
 
     @Given("I am on home pagee")
     public void i_am_on_home_pagee() {
-    	initializeDriver();
+    	driver = getDriver();
 		System.out.println("Driver before page init = " + driver);
 		lp = new listofActionsPage(driver);
 		lp.homePage();
@@ -53,7 +57,7 @@ public class ElementsSteps extends BaseClass{
         // String actual = elementsPage.getTextBoxLabelText();
         // Assertions.assertEquals(expectedElement, actual);
 
-        // demo assertion so you see it working end-to-end:
+        // demo assertion to see it working end-to-end:
         String label = lp.elementLabel();
         Assert.assertEquals(label, expectedElement);
         quitDriver();

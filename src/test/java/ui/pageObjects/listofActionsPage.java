@@ -15,7 +15,7 @@ public class listofActionsPage {
 	 private WaitUtils wait;
 	    
 	    //locators 
-	@FindBy(xpath="//div[@class='category-cards']//h5[text()='Elements']")
+	@FindBy(xpath="///div[@class='category-cards']//h5[text()='Elements']")
 	private WebElement elementLink;
 	
 	
