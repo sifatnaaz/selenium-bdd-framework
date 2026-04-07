@@ -2,7 +2,7 @@ package ui.stepDefinitions;
 
 
 import ui.context.TestDataContext;
-import ui.pageObjects.listofActionsPage;
+import ui.pageObjects.ElementsPage;
 import io.cucumber.java.en.*;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
@@ -13,13 +13,13 @@ import ui.utils.ExcelUtils;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import ui.pageObjects.listofActionsPage;
+import ui.pageObjects.ElementsPage;
 import ui.base.BaseClass;
 
 public class ElementsSteps extends BaseClass{
 
     private TestDataContext context;
-    listofActionsPage lp;
+    ElementsPage lp;
     WebDriver driver;
     
 
@@ -32,7 +32,7 @@ public class ElementsSteps extends BaseClass{
     public void i_am_on_home_pagee() {
     	driver = getDriver();
 		System.out.println("Driver before page init = " + driver);
-		lp = new listofActionsPage(driver);
+		lp = new ElementsPage(driver);
 		lp.homePage();
     }
 

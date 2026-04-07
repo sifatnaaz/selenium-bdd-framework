@@ -10,7 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import ui.utils.WaitUtils;
 
-public class listofActionsPage {
+public class ElementsPage {
 	 private WebDriver driver;
 	 private WaitUtils wait;
 	    
@@ -25,7 +25,7 @@ public class listofActionsPage {
 	private By pageLabel= By.xpath("");
 	
 	//constructor 
-	public listofActionsPage(WebDriver driver) {
+	public ElementsPage(WebDriver driver) {
 		 this.driver = driver;
 		
 		wait= new WaitUtils(driver);
