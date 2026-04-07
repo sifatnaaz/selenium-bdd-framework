@@ -11,7 +11,7 @@ import ui.utils.UiConfigReader;
 
 public class BaseClass {
 
-    protected WebDriver driver;
+    protected static WebDriver driver;
     protected UiConfigReader config;
 
     public BaseClass() {
@@ -25,6 +25,8 @@ public class BaseClass {
         if ("chrome".equalsIgnoreCase(browser)) {
             WebDriverManager.chromedriver().setup();
             ChromeOptions options = new ChromeOptions();
+            
+            
             driver = new ChromeDriver(options);
         }
 

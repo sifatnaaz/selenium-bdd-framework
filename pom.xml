@@ -10,13 +10,12 @@
 
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
-       
         <selenium.version>4.16.1</selenium.version>
         <webdriver.manager.version>5.6.3</webdriver.manager.version>
         <cucumber.version>7.16.1</cucumber.version>
         <junit.version>4.13.2</junit.version>
     </properties>
- 
+
     <dependencies>
         <!-- Selenium -->
         <dependency>
@@ -24,6 +23,9 @@
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
         </dependency>
+
+        <!-- FIX 9: Removed selenium-devtools-v120 - selenium-java already bundles
+             the correct devtools version. Pinning to v120 breaks on newer Chrome. -->
 
         <!-- WebDriverManager -->
         <dependency>
@@ -46,96 +48,57 @@
             <scope>test</scope>
         </dependency>
 
-  <!--       JUnit
+        <!-- PicoContainer for dependency injection between step classes/hooks -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${cucumber.version}</version>
             <scope>test</scope>
-        </dependency> -->
-        
-        <!-- Source: https://mvnrepository.com/artifact/com.github.tomakehurst/wiremock-jre8 -->
-<dependency>
-    <groupId>org.wiremock</groupId>
-    <artifactId>wiremock</artifactId>
-    <version>3.6.0</version>
-    <scope>test</scope>
-</dependency>
+        </dependency>
 
-<!-- Source: https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
-<dependency>
-    <groupId>io.rest-assured</groupId>
-    <artifactId>rest-assured</artifactId>
-    <version>5.4.0</version>
-</dependency>
+        <!-- WireMock -->
+        <dependency>
+            <groupId>org.wiremock</groupId>
+            <artifactId>wiremock</artifactId>
+            <version>3.6.0</version>
+            <scope>test</scope>
+        </dependency>
 
-<!-- Source: https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi-ooxml</artifactId>
-    <version>5.5.1</version>
-    <scope>compile</scope>
-</dependency>
+        <!-- Rest Assured -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.4.0</version>
+            <scope>test</scope>
+        </dependency>
 
-<!-- Source: https://mvnrepository.com/artifact/io.cucumber/cucumber-picocontainer -->
-<dependency>
-    <groupId>io.cucumber</groupId>
-    <artifactId>cucumber-picocontainer</artifactId>
-    <version>${cucumber.version}</version>
-    <scope>test</scope>
-</dependency>
+        <!-- Apache POI - FIX 10: scope changed from compile to test -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.5.1</version>
+            <scope>test</scope>
+        </dependency>
 
-<dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-api</artifactId>
-      <version>2.23.1</version>
-      <scope>test</scope>
-    </dependency>
-    
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.23.1</version>
+            <scope>test</scope>
+        </dependency>
 
-<!-- SLF4J API (usually already pulled, but safe to include) -->
-<!--<dependency>
-  <groupId>org.slf4j</groupId>
-  <artifactId>slf4j-api</artifactId>
-  <version>2.0.12</version>
-</dependency>-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.23.1</version>
+        </dependency>
 
-<!-- Log4j2 implementation -->
-<dependency>
-  <groupId>org.apache.logging.log4j</groupId>
-  <artifactId>log4j-core</artifactId>
-  <version>2.23.1</version>
-</dependency>
-
-<dependency>
-  <groupId>org.apache.logging.log4j</groupId>
-  <artifactId>log4j-slf4j2-impl</artifactId>
-  <version>2.23.1</version>
-</dependency>
-
-<!-- Source: https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
-<!--<dependency>
-    <groupId>org.junit.jupiter</groupId>
-    <artifactId>junit-jupiter</artifactId>
-    <version>5.10.2</version>
-    <scope>test</scope>
-</dependency>
-
- Source: https://mvnrepository.com/artifact/org.junit.platform/junit-platform-suite-api 
-<dependency>
-    <groupId>org.junit.platform</groupId>
-    <artifactId>junit-platform-suite</artifactId>
-    <version>1.10.2</version>
-    <scope>test</scope>
-</dependency>
-
- Source: https://mvnrepository.com/artifact/io.cucumber/cucumber-junit-platform-engine 
-<dependency>
-    <groupId>io.cucumber</groupId>
-    <artifactId>cucumber-junit-platform-engine</artifactId>
-    <version>${cucumber.version}</version>
-    <scope>test</scope>
-</dependency>-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>2.23.1</version>
+        </dependency>
 
     </dependencies>
 
@@ -146,7 +109,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                   <release> ${maven.compiler.release}</release>
+                    <release>${maven.compiler.release}</release>
                 </configuration>
             </plugin>
 

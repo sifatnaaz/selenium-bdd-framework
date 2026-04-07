@@ -18,7 +18,7 @@ import ui.base.BaseClass;
 
 public class ElementsSteps extends BaseClass{
 
-    private final TestDataContext context;
+    private TestDataContext context;
     listofActionsPage lp;
     WebDriver driver;
     
@@ -50,6 +50,9 @@ public class ElementsSteps extends BaseClass{
                 testCaseId
         );
 
+        System.out.println("File: " + context.getDataFile());
+        System.out.println("Sheet: " + context.getSheetName());
+        
         String expectedElement = row.getRequired("expectedElement");
         System.out.println("expectedElement : "+ expectedElement);
 

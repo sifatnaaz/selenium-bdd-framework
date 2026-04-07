@@ -15,58 +15,54 @@ import io.cucumber.java.Scenario;
 
 public class Hooks {
 
-	private TestDataContext context;
+	private final TestDataContext context;
 	private final BaseClass base;
 
-	// ✅ Zero-arg constructor for Cucumber instantiation
-	public Hooks() {
-		this.context = new TestDataContext();
+	// FIX 1: PicoContainer injects TestDataContext - no zero-arg constructor needed
+	public Hooks(TestDataContext context) {
+		this.context = context;
 		this.base = new BaseClass();
-		
 	}
 
 	@Before
 	public void loadExcelConfigFromTags(Scenario scenario) {
-		//initialize/create the driver for the execution 
+		System.out.println("inside before hook");
 		base.initializeDriver();
-		
-		// defaults
-		context.setDataFile(null);
-		context.setSheetName(null);
+
+		String dataFile = null;
+		String sheetName = null;
 
 		for (String tag : scenario.getSourceTagNames()) {
 			if (tag.startsWith("@dataFile=")) {
-				context.setDataFile(tag.substring("@dataFile=".length()));
+				dataFile = tag.substring("@dataFile=".length());
 			} else if (tag.startsWith("@sheet=")) {
-				context.setSheetName(tag.substring("@sheet=".length()));
+				sheetName = tag.substring("@sheet=".length());
 			}
 		}
 
-		if (context.getDataFile() == null || context.getSheetName() == null) {
+		if (dataFile == null || sheetName == null) {
 			throw new RuntimeException("Missing @dataFile=... or @sheet=... tag in feature/scenario.");
 		}
+
+		// FIX 2: Populate TestDataContext so step definitions can read it
+		context.setDataFile(dataFile);
+		context.setSheetName(sheetName);
+
+		System.out.println("Excel file: " + dataFile + ", Sheet: " + sheetName);
 	}
 
 	@AfterStep
 	public void takeScreenshotOnFailure(Scenario scenario) {
-		WebDriver driver = base.getDriver(); // static driver from BaseClass via base instance
+		WebDriver driver = base.getDriver();
 
 		if (scenario.isFailed() && driver != null) {
-
-			// Create a readable timestamp: yyyy-MM-dd_HH-mm-ss
 			String timestamp = java.time.LocalDateTime.now()
 					.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"));
-
-			// Replace spaces in scenario name to make filename safe
 			String safeScenarioName = scenario.getName().replaceAll("\\s+", "_");
-
-			// Screenshot file name
 			String screenshotName = safeScenarioName + "_" + timestamp + ".png";
 
-			// Capture screenshot as file
 			ScreenshotUtils.captureScreenshot(driver, screenshotName);
 
-			// Also attach to Cucumber report
 			byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 			scenario.attach(screenshot, "image/png", screenshotName);
 
@@ -79,7 +75,6 @@ public class Hooks {
 		base.quitDriver();
 	}
 
-	// Expose BaseClass & context if needed in steps
 	public WebDriver getDriver() {
 		return base.getDriver();
 	}
